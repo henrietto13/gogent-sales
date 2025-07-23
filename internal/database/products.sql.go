@@ -24,6 +24,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
+  AND a.vexiact > 0
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -73,6 +74,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
+  AND a.vexiact > 0
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -124,6 +126,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
+  AND a.vexiact > 0
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -183,6 +186,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
+  AND a.vexiact > 0
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -237,14 +241,11 @@ SELECT
 FROM articulos a
 JOIN lineas l ON a.vlinart = l.vlindep
 JOIN grupos g ON a.vcodpro = g.grupo
-  INNER JOIN movimientosd m ON a.vcodpro = m.vcodpro
 WHERE
     a.vcodpro IN (/*SLICE:product_codes*/?)
     AND a.vtippro = 1
-  	AND a.vdescri != ''
-	  AND a.vlinart not in ('9', '13') 
-  AND m.vtipmov IN ('caj01', 'ent01')
-    AND m.vcantid > 0
+    AND a.vdescri != ''
+    AND a.vlinart not in ('9', '13') 
 GROUP BY
     a.vcodpro, a.vdescri, l.vdescri, a.vsublin, a.vmarart
 `
