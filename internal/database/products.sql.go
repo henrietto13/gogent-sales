@@ -24,7 +24,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
-  AND a.vexiact > 0
+  AND a.vexiact > 1
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -74,7 +74,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
-  AND a.vexiact > 0
+  AND a.vexiact > 1
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -126,7 +126,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
-  AND a.vexiact > 0
+  AND a.vexiact > 1
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
@@ -186,7 +186,7 @@ WHERE
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
-  AND a.vexiact > 0
+  AND a.vexiact > 1
 GROUP BY
   a.vcodpro, a.vdescri, a.vsublin, a.vmarart
 ORDER BY CAST(a.vcodpro AS UNSIGNED)
