@@ -7,7 +7,6 @@ package database
 
 import (
 	"context"
-	"log"
 	"strings"
 )
 
@@ -21,7 +20,7 @@ INNER JOIN movimientosd m
 WHERE
   a.vtippro = 1
   AND a.vdescri != ''
-  AND a.vlinart NOT IN ('9', '13')
+  AND (a.vlinart not in ('9', '13') or a.vcodpro in (9029, 9030))
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
@@ -38,8 +37,6 @@ type GetAllProductCodesRow struct {
 
 // sql/queries/products.sql
 func (q *Queries) GetAllProductCodes(ctx context.Context) ([]GetAllProductCodesRow, error) {
-	log.Printf("Getting all product codes:\n%s", getAllProductCodes)
-
 	rows, err := q.db.QueryContext(ctx, getAllProductCodes)
 	if err != nil {
 		return nil, err
@@ -73,7 +70,7 @@ WHERE
   a.vmarart LIKE CONCAT('%', ?, '%')
   AND a.vtippro = 1
   AND a.vdescri != ''
-  AND a.vlinart NOT IN ('9', '13')
+  AND (a.vlinart not in ('9', '13') or a.vcodpro in (9029, 9030))
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
@@ -89,8 +86,6 @@ type GetProductCodesByBrandRow struct {
 }
 
 func (q *Queries) GetProductCodesByBrand(ctx context.Context, brand interface{}) ([]GetProductCodesByBrandRow, error) {
-	log.Printf("Getting all porduct codes by brand:\n%s", getProductCodesByBrand)
-
 	rows, err := q.db.QueryContext(ctx, getProductCodesByBrand, brand)
 	if err != nil {
 		return nil, err
@@ -127,7 +122,7 @@ WHERE
   AND a.vsublin LIKE CONCAT('%', ?, '%')
   AND a.vtippro = 1
   AND a.vdescri != ''
-  AND a.vlinart NOT IN ('9', '13')
+  AND (a.vlinart not in ('9', '13') or a.vcodpro in (9029, 9030))
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
@@ -149,8 +144,6 @@ type GetProductCodesByCategoryRow struct {
 }
 
 func (q *Queries) GetProductCodesByCategory(ctx context.Context, arg GetProductCodesByCategoryParams) ([]GetProductCodesByCategoryRow, error) {
-	log.Printf("Getting all porduct codes by category:\n%s", getProductCodesByCategory)
-
 	rows, err := q.db.QueryContext(ctx, getProductCodesByCategory, arg.Linea, arg.Sublinea)
 	if err != nil {
 		return nil, err
@@ -189,7 +182,7 @@ WHERE
   )
   AND a.vtippro = 1
   AND a.vdescri != ''
-  AND a.vlinart NOT IN ('9', '13')
+  AND (a.vlinart not in ('9', '13') or a.vcodpro in (9029, 9030))
   AND STR_TO_DATE(m.vfecham, '%Y-%m-%d') >= CURDATE() - INTERVAL 45 DAY
   AND m.vtipmov IN ('caj01', 'ent01')
   AND m.vcantid > 0
@@ -209,8 +202,6 @@ type GetProductCodesBySearchTermRow struct {
 }
 
 func (q *Queries) GetProductCodesBySearchTerm(ctx context.Context, arg GetProductCodesBySearchTermParams) ([]GetProductCodesBySearchTermRow, error) {
-	log.Printf("Getting all porduct codes by searchterm:\n%s", getProductCodesBySearchTerm)
-
 	rows, err := q.db.QueryContext(ctx, getProductCodesBySearchTerm, arg.SearchTerm, arg.SearchTerm, arg.SearchTerm)
 	if err != nil {
 		return nil, err
@@ -254,7 +245,7 @@ WHERE
     a.vcodpro IN (/*SLICE:product_codes*/?)
     AND a.vtippro = 1
     AND a.vdescri != ''
-    AND a.vlinart not in ('9', '13') 
+    AND (a.vlinart not in ('9', '13') or a.vcodpro in (9029, 9030)) 
 GROUP BY
     a.vcodpro, a.vdescri, l.vdescri, a.vsublin, a.vmarart
 `
@@ -275,8 +266,6 @@ type GetProductsInfoByCodeRow struct {
 }
 
 func (q *Queries) GetProductsInfoByCode(ctx context.Context, productCodes []string) ([]GetProductsInfoByCodeRow, error) {
-	log.Printf("Getting all porduct info by code:\n%s", getProductsInfoByCode)
-
 	query := getProductsInfoByCode
 	var queryParams []interface{}
 	if len(productCodes) > 0 {
