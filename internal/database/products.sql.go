@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"strings"
 )
 
@@ -37,6 +38,8 @@ type GetAllProductCodesRow struct {
 
 // sql/queries/products.sql
 func (q *Queries) GetAllProductCodes(ctx context.Context) ([]GetAllProductCodesRow, error) {
+	fmt.Printf("Getting all product codes:\n%s", getAllProductCodes)
+
 	rows, err := q.db.QueryContext(ctx, getAllProductCodes)
 	if err != nil {
 		return nil, err
@@ -86,6 +89,8 @@ type GetProductCodesByBrandRow struct {
 }
 
 func (q *Queries) GetProductCodesByBrand(ctx context.Context, brand interface{}) ([]GetProductCodesByBrandRow, error) {
+	fmt.Printf("Getting all porduct codes by brand:\n%s", getProductCodesByBrand)
+
 	rows, err := q.db.QueryContext(ctx, getProductCodesByBrand, brand)
 	if err != nil {
 		return nil, err
@@ -144,6 +149,8 @@ type GetProductCodesByCategoryRow struct {
 }
 
 func (q *Queries) GetProductCodesByCategory(ctx context.Context, arg GetProductCodesByCategoryParams) ([]GetProductCodesByCategoryRow, error) {
+	fmt.Printf("Getting all porduct codes by category:\n%s", getProductCodesByCategory)
+
 	rows, err := q.db.QueryContext(ctx, getProductCodesByCategory, arg.Linea, arg.Sublinea)
 	if err != nil {
 		return nil, err
@@ -202,6 +209,8 @@ type GetProductCodesBySearchTermRow struct {
 }
 
 func (q *Queries) GetProductCodesBySearchTerm(ctx context.Context, arg GetProductCodesBySearchTermParams) ([]GetProductCodesBySearchTermRow, error) {
+	fmt.Printf("Getting all porduct codes by searchterm:\n%s", getProductCodesBySearchTerm)
+
 	rows, err := q.db.QueryContext(ctx, getProductCodesBySearchTerm, arg.SearchTerm, arg.SearchTerm, arg.SearchTerm)
 	if err != nil {
 		return nil, err
@@ -266,6 +275,8 @@ type GetProductsInfoByCodeRow struct {
 }
 
 func (q *Queries) GetProductsInfoByCode(ctx context.Context, productCodes []string) ([]GetProductsInfoByCodeRow, error) {
+	fmt.Printf("Getting all porduct info by code:\n%s", getProductsInfoByCode)
+
 	query := getProductsInfoByCode
 	var queryParams []interface{}
 	if len(productCodes) > 0 {
